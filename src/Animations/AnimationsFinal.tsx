@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   Clock,
-  Easing,
+  EasingNode,
   Value,
   and,
   block,
@@ -14,8 +14,7 @@ import {
   startClock,
   stopClock,
   timing,
-  useCode,
-  EasingNode,
+  useCode
 } from "react-native-reanimated";
 import { useClock, useValue } from "react-native-redash";
 import ChatBubble from "./ChatBubble";
@@ -41,6 +40,8 @@ const runTiming = (clock: Clock) => {
     duration: 1000,
     easing: EasingNode.inOut(EasingNode.ease),
   };
+
+  // return a declaration block
   return block([
     cond(
       not(clockRunning(clock)),

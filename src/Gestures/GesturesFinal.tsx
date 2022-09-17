@@ -1,21 +1,17 @@
 import React, { useState } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-
 import { PanGestureHandler } from "react-native-gesture-handler";
 import {
   diffClamp,
-  translate,
   usePanGestureHandler,
   withDecay,
-  withOffset,
 } from "react-native-redash";
 import Animated, {
   Extrapolate,
   add,
-  interpolate,
+  interpolateNode,
 } from "react-native-reanimated";
 import {
-  CARD_WIDTH,
   Card,
   CARD_HEIGHT as DEFAULT_CARD_HEIGHT,
   cards,
@@ -70,25 +66,25 @@ const Wallet = () => {
             const isOnTop = 0;
             const isOnBottom = (visibleCards - 1) * CARD_HEIGHT;
             const isAppearing = visibleCards * CARD_HEIGHT;
-            const extraTranslationY = interpolate(positionY, {
+            const extraTranslationY = interpolateNode(positionY, {
               inputRange: [isOnBottom, isAppearing],
               outputRange: [0, -CARD_HEIGHT / 4],
               extrapolate: Extrapolate.CLAMP,
             });
             const translateY = add(
-              interpolate(y, {
+              interpolateNode(y, {
                 inputRange: [-CARD_HEIGHT * index, 0],
                 outputRange: [-CARD_HEIGHT * index, 0],
                 extrapolate: Extrapolate.CLAMP,
               }),
               extraTranslationY
             );
-            const scale = interpolate(positionY, {
+            const scale = interpolateNode(positionY, {
               inputRange: [isDisappearing, isOnTop, isOnBottom, isAppearing],
               outputRange: [0.5, 1, 1, 0.5],
               extrapolate: Extrapolate.CLAMP,
             });
-            const opacity = interpolate(positionY, {
+            const opacity = interpolateNode(positionY, {
               inputRange: [isDisappearing, isOnTop, isOnBottom, isAppearing],
               outputRange: [0.5, 1, 1, 0.5],
             });

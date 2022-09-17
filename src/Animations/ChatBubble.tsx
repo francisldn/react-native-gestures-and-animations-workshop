@@ -5,7 +5,7 @@ import { StyleGuide } from "../components";
 
 const { width: wWidth } = Dimensions.get("window");
 const width = wWidth * 0.8;
-const { interpolate, Extrapolate } = Animated;
+const { interpolateNode, Extrapolate } = Animated;
 const size = 32;
 const styles = StyleSheet.create({
   root: {
@@ -47,12 +47,12 @@ const SimpleActivityIndicator = ({
         {bubbles.map((i) => {
           const start = i * delta;
           const end = start + delta;
-          const opacity = interpolate(progress, {
+          const opacity = interpolateNode(progress, {
             inputRange: [start, end],
             outputRange: [0.5, 1],
             extrapolate: Extrapolate.CLAMP,
           });
-          const scale = interpolate(progress, {
+          const scale = interpolateNode(progress, {
             inputRange: [start, end],
             outputRange: [1, 1.5],
             extrapolate: Extrapolate.CLAMP,

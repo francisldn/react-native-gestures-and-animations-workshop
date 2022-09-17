@@ -15,6 +15,7 @@ import {
   stopClock,
   timing,
   useCode,
+  EasingNode,
 } from "react-native-reanimated";
 import { useClock, useValue } from "react-native-redash";
 import ChatBubble from "./ChatBubble";
@@ -37,8 +38,8 @@ const runTiming = (clock: Clock) => {
   };
   const config = {
     toValue: new Value(1),
-    duration: 3000,
-    easing: Easing.inOut(Easing.ease),
+    duration: 1000,
+    easing: EasingNode.inOut(EasingNode.ease),
   };
   return block([
     cond(
@@ -61,10 +62,13 @@ const Timing = () => {
   const [play, setPlay] = useState(false);
   const clock = useClock();
   const progress = useValue(0);
+  // useValue to ensure identity is preserved across re-renders, wrapper using useRef
   const isPlaying = useValue(0);
+  // similar to useEffect
   useCode(() => set(isPlaying, play ? 1 : 0), [play]);
   useCode(
     () => [
+      // declaration for code to be executed in the native thread, not on the JS thread
       cond(and(isPlaying, not(clockRunning(clock))), startClock(clock)),
       cond(and(not(isPlaying), clockRunning(clock)), stopClock(clock)),
       set(progress, runTiming(clock)),

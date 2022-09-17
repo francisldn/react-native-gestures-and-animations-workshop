@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 
 const Timing = () => {
   const [play, setPlay] = useState(false);
-  const progress = 0;
+  const progress = useValue(0);
   return (
     <View style={styles.container}>
       <ChatBubble {...{ progress }} />
